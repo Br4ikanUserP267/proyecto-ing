@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Almacén</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            height: 100vh;
+            background: #343a40;
+            color: white;
+            padding-top: 20px;
+            position: fixed;
+            width: 250px;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+            transition: 0.3s;
+        }
+        .sidebar a:hover {
+            background: #007bff;
+            color: white;
+        }
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+        .card-header {
+            background: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                text-align: center;
+            }
+            .content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Menú lateral -->
+      
+        <div class="sidebar">
+            <h4 class="text-center">Dashboard</h4>
+            <a href="#" onclick="mostrarSeccion('entrada')">Registrar Entrada</a>
+            <a href="#" onclick="mostrarSeccion('salida')">Registrar Salida</a>
+            <a href="#" onclick="mostrarSeccion('inventario')">Estado del Inventario</a>
+            <button class="logout-btn" onclick="cerrarSesion()">Cerrar Sesión</button>
+
+        </div>
+        <!-- Contenido principal -->
+        <main class="col-md-9 col-lg-10 content">
+            <h2 class="mb-4 text-center">Módulo de Almacén</h2>
+
+            <!-- Sección: Registro de Entrada -->
+            <div id="entrada" class="seccion">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Registrar Entrada de Producto</div>
+                            <div class="card-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="productoEntrada" class="form-label">Nombre del Producto</label>
+                                        <input type="text" id="productoEntrada" class="form-control" placeholder="Ej. Botellas de agua">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="cantidadEntrada" class="form-label">Cantidad</label>
+                                        <input type="number" id="cantidadEntrada" class="form-control" placeholder="Ej. 100">
+                                    </div>
+                                    <button type="submit" class="btn btn-custom">Registrar Entrada</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Entradas Registradas</div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Producto</th>
+                                            <th>Cantidad</th>
+                                            <th>Fecha</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>101</td>
+                                            <td>Botellas de agua</td>
+                                            <td>100</td>
+                                            <td>2025-03-12</td>
+                                        </tr>
+                                        <tr>
+                                            <td>102</td>
+                                            <td>Desinfectantes</td>
+                                            <td>50</td>
+                                            <td>2025-03-11</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Registro de Salida -->
+            <div id="salida" class="seccion" style="display: none;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Registrar Salida de Producto</div>
+                            <div class="card-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="productoSalida" class="form-label">Nombre del Producto</label>
+                                        <input type="text" id="productoSalida" class="form-control" placeholder="Ej. Botellas de agua">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="cantidadSalida" class="form-label">Cantidad</label>
+                                        <input type="number" id="cantidadSalida" class="form-control" placeholder="Ej. 50">
+                                    </div>
+                                    <button type="submit" class="btn btn-danger">Registrar Salida</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Salidas Registradas</div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Producto</th>
+                                            <th>Cantidad</th>
+                                            <th>Fecha</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>201</td>
+                                            <td>Botellas de agua</td>
+                                            <td>50</td>
+                                            <td>2025-03-12</td>
+                                        </tr>
+                                        <tr>
+                                            <td>202</td>
+                                            <td>Papel</td>
+                                            <td>30</td>
+                                            <td>2025-03-11</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Estado del Inventario -->
+            <div id="inventario" class="seccion" style="display: none;">
+                <div class="card">
+                    <div class="card-header">Estado del Inventario</div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Producto</th>
+                                    <th>Stock Disponible</th>
+                                    <th>Última Actualización</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>001</td>
+                                    <td>Botellas de agua</td>
+                                    <td>150</td>
+                                    <td>2025-03-12</td>
+                                </tr>
+                                <tr>
+                                    <td>002</td>
+                                    <td>Cajas de papel</td>
+                                    <td>75</td>
+                                    <td>2025-03-10</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<script>
+    function mostrarSeccion(seccion) {
+        document.querySelectorAll('.seccion').forEach(el => el.style.display = 'none');
+        document.getElementById(seccion).style.display = 'block';
+    }
+    function cerrarSesion() {
+            window.location.href = "../login.html";
+        }
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

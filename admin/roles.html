@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #212529;
+            color: white;
+            padding: 1rem;
+        }
+        .sidebar a {
+            transition: background 0.3s;
+        }
+        .sidebar a:hover {
+            background: #495057;
+            border-radius: 5px;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 2rem;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h3>Admin Panel</h3>
+        <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link text-white" href="./dashboard.html">Usuarios</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="./roles.html">Roles</a></li>
+            <button class="logout-btn" onclick="cerrarSesion()">Cerrar Sesión</button>
+
+        </ul>
+    </div>
+    <div class="content">
+        
+        <h2 id="roles">Gestión de Roles</h2>
+        <div class="mb-3">
+            <input type="text" id="nuevoRol" class="form-control" placeholder="Ingrese nuevo rol">
+            <button class="btn btn-custom mt-2" onclick="agregarRol()">Agregar Rol</button>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre del Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="rolesTableBody">
+                <tr id="rol-1">
+                    <td>1</td>
+                    <td>Administrador</td>
+                    <td>
+                        <button class="btn btn-sm btn-danger" onclick="eliminarRol(1)">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal" id="confirmModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Seguro que deseas eliminar este usuario?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let usuarioAEliminar = null;
+        
+        function confirmarEliminacion(id) {
+            usuarioAEliminar = id;
+            let modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+            modal.show();
+        }
+
+        document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+            if (usuarioAEliminar !== null) {
+                document.getElementById(`row-${usuarioAEliminar}`).remove();
+            }
+            let modal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+            modal.hide();
+        });
+
+        function agregarRol() {
+            let nuevoRol = document.getElementById("nuevoRol").value;
+            if (nuevoRol.trim() === "") {
+                alert("Por favor, ingrese un nombre de rol válido.");
+                return;
+            }
+            let id = Date.now();
+            let tablaRoles = document.getElementById("rolesTableBody");
+            let fila = `<tr id="rol-${id}"><td>${id}</td><td>${nuevoRol}</td><td><button class="btn btn-sm btn-danger" onclick="eliminarRol(${id})">Eliminar</button></td></tr>`;
+            tablaRoles.innerHTML += fila;
+            document.getElementById("nuevoRol").value = "";
+        }
+
+        function eliminarRol(id) {
+            document.getElementById(`rol-${id}`).remove();
+        }
+        function cerrarSesion() {
+            window.location.href = "../login.html";
+        }
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
